@@ -7,3 +7,6 @@
 - shorthand syntax
 - forms
 - two way binding
+
+
+![screenshot1.png](./assets/screenshot1.png)
