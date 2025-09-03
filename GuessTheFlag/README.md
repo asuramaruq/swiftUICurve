@@ -8,4 +8,7 @@
 - buttons and images
 - alerts
 
+## added animations proj6 (technique project)
+
 ![screenshot2.png](./assets/screenshot2.png)
+

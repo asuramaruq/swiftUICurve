@@ -11,7 +11,7 @@ struct ContentView: View {
     
     @State private var countries: [String] = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Spain", "UK", "Ukraine", "US"].shuffled()
     @State private var correctAnswer = Int.random(in:0...2)
-    @State private var chosenFlag: Int = 0
+    @State private var chosenFlag: Int = 5
     
     @State private var showingScoreAlert = false
     @State private var scoreTitle = ""
@@ -20,6 +20,9 @@ struct ContentView: View {
     @State private var questionCounter: Int = 1
     
     @State private var gameEnd = false
+    
+    @State private var animationAmount = [0.0, 0.0, 0.0]
+    @State private var fadeAmount = 1.0
     
     func flagTapped(_ number: Int) {
         chosenFlag = number
@@ -39,6 +42,7 @@ struct ContentView: View {
         if questionCounter == 8 { gameEnd = true }
         questionCounter += 1
         correctAnswer = Int.random(in: 0...2)
+        chosenFlag = 5
     }
     
     func resetGame() {
@@ -73,16 +77,23 @@ struct ContentView: View {
                     
                     ForEach(0..<3) { number in
                         Button {
+                            withAnimation (.easeInOut) {
+                                animationAmount[number] += 360
+                            }
                             flagTapped(number)
                         } label: {
                             FlagImage(country: countries[number])
                         }
+                        .rotation3DEffect(.degrees(animationAmount[number]), axis: (x: 0, y: 1, z: 0))
+                        .opacity((chosenFlag == 5 || chosenFlag == number) ? 1.0 : 0.25)
+                        .scaleEffect((chosenFlag == 5 || chosenFlag == number) ? 1.0 : 0.8)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 20)
                 .background(.thinMaterial)
                 .clipShape(.rect(cornerRadius: 20))
+
                 
                 Spacer()
                 
